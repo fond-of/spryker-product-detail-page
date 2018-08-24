@@ -13,6 +13,7 @@ class ProductDetailPageToCatalogClientBridge implements ProductDetailPageToCatal
 
     /**
      * ProductDetailPageToCatalogClientBridge constructor.
+     *
      * @param \Spryker\Client\Catalog\CatalogClientInterface $catalogClient
      */
     public function __construct(CatalogClientInterface $catalogClient)
@@ -23,6 +24,7 @@ class ProductDetailPageToCatalogClientBridge implements ProductDetailPageToCatal
     /**
      * @param string $searchString
      * @param array $requestParameters
+     *
      * @return array
      */
     public function catalogSearch(string $searchString, array $requestParameters): array

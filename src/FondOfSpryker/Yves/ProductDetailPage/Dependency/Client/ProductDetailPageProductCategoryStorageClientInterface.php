@@ -9,6 +9,7 @@ interface ProductDetailPageProductCategoryStorageClientInterface
     /**
      * @param int $idProductAbstract
      * @param string $locale
+     *
      * @return \Generated\Shared\Transfer\ProductAbstractCategoryStorageTransfer|null
      */
     public function findProductAbstractCategory(int $idProductAbstract, string $locale): ?ProductAbstractCategoryStorageTransfer;

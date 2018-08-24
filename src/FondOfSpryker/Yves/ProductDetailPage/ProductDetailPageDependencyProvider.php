@@ -7,17 +7,12 @@
 
 namespace FondOfSpryker\Yves\ProductDetailPage;
 
-use Pyz\Shared\Category\CategoryConfig;
 use FondOfSpryker\Yves\ProductDetailPage\Dependency\Client\ProductDetailPageProductCategoryStorageClientBridge;
 use FondOfSpryker\Yves\ProductDetailPage\Dependency\Client\ProductDetailPageToCatalogClientBridge;
 use FondOfSpryker\Yves\ProductDetailPage\Dependency\Client\ProductDetailPageToCategoryStorageClientBridge;
-use SprykerShop\Yves\AvailabilityWidget\Plugin\ProductDetailPage\AvailabilityWidgetPlugin;
-use SprykerShop\Yves\CmsBlockWidget\Plugin\ProductDetailPage\ProductCmsBlockWidgetPlugin;
-use SprykerShop\Yves\PriceWidget\Plugin\ProductDetailPage\PriceWidgetPlugin;
-use SprykerShop\Yves\ProductCategoryWidget\Plugin\ProductDetailPage\ProductCategoryWidgetPlugin;
-use SprykerShop\Yves\ProductDetailPage\ProductDetailPageDependencyProvider as SprykerShopProductDetailPageDependencyProvider;
-use SprykerShop\Yves\ProductImageWidget\Plugin\ProductDetailPage\ProductImageWidgetPlugin;
+use Pyz\Shared\Category\CategoryConfig;
 use Spryker\Yves\Kernel\Container;
+use SprykerShop\Yves\ProductDetailPage\ProductDetailPageDependencyProvider as SprykerShopProductDetailPageDependencyProvider;
 
 class ProductDetailPageDependencyProvider extends SprykerShopProductDetailPageDependencyProvider
 {
@@ -44,21 +39,8 @@ class ProductDetailPageDependencyProvider extends SprykerShopProductDetailPageDe
     }
 
     /**
-     * @return \Spryker\Yves\Kernel\Dependency\Plugin\WidgetPluginInterface[]
-     */
-    protected function getProductDetailPageWidgetPlugins(): array
-    {
-        return [
-            PriceWidgetPlugin::class,
-            ProductCategoryWidgetPlugin::class,
-            ProductImageWidgetPlugin::class,
-            AvailabilityWidgetPlugin::class,
-            ProductCmsBlockWidgetPlugin::class,
-        ];
-    }
-
-    /**
      * @param \Spryker\Yves\Kernel\Container $container
+     *
      * @return \Spryker\Yves\Kernel\Container
      */
     protected function addProductCategoryStorageClient(Container $container): Container
@@ -74,6 +56,7 @@ class ProductDetailPageDependencyProvider extends SprykerShopProductDetailPageDe
 
     /**
      * @param \Spryker\Yves\Kernel\Container $container
+     *
      * @return \Spryker\Yves\Kernel\Container
      */
     protected function addCatalogClient(Container $container): Container
@@ -89,6 +72,7 @@ class ProductDetailPageDependencyProvider extends SprykerShopProductDetailPageDe
 
     /**
      * @param \Spryker\Yves\Kernel\Container $container
+     *
      * @return \Spryker\Yves\Kernel\Container
      */
     protected function addCategoryConfig(Container $container): Container
@@ -102,6 +86,7 @@ class ProductDetailPageDependencyProvider extends SprykerShopProductDetailPageDe
 
     /**
      * @param \Spryker\Yves\Kernel\Container $container
+     *
      * @return \Spryker\Yves\Kernel\Container
      */
     protected function addCategoryStorageClient(Container $container): Container

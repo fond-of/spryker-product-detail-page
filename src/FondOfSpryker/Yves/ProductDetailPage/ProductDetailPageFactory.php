@@ -12,7 +12,6 @@ class ProductDetailPageFactory extends SprykerShopProductDetailPageFactory
 {
     /**
      * @return \Spryker\Client\ProductCategoryStorage\ProductCategoryStorageClientInterface
-     * @throws \Spryker\Yves\Kernel\Exception\Container\ContainerKeyNotFoundException
      */
     public function getProductCategoryStorageClient(): ProductDetailPageProductCategoryStorageClientInterface
     {
@@ -21,7 +20,6 @@ class ProductDetailPageFactory extends SprykerShopProductDetailPageFactory
 
     /**
      * @return \FondOfSpryker\Yves\ProductDetailPage\Dependency\Client\ProductDetailPageToCatalogClientInterface
-     * @throws \Spryker\Yves\Kernel\Exception\Container\ContainerKeyNotFoundException
      */
     public function getCatalogClient(): ProductDetailPageToCatalogClientInterface
     {
@@ -35,7 +33,6 @@ class ProductDetailPageFactory extends SprykerShopProductDetailPageFactory
 
     /**
      * @return \FondOfSpryker\Yves\ProductDetailPage\Dependency\Client\ProductDetailPageToCategoryStorageClientInterface
-     * @throws \Spryker\Yves\Kernel\Exception\Container\ContainerKeyNotFoundException
      */
     public function getCategoryStorageClient(): ProductDetailPageToCategoryStorageClientInterface
     {
