@@ -29,23 +29,14 @@ class ProductController extends SprykerShopProductController
             ->getProductStorageClient()
             ->mapProductStorageData($productData, $this->getLocale(), $this->getSelectedAttributes($request));
 
-        $idCategoryNode = $this->getFactory()
-            ->getCategoryConfig()
-            ->getCategoryIdByModelName($productViewTransfer->getAttributes()['model']);
-
-        $categoryNode = $this->getFactory()
-            ->getCategoryStorageClient()
-            ->getCategoryNodeById($idCategoryNode, $this->getLocale());
-
         $crossSellingProducts = $this->getFactory()
             ->getCatalogClient()
-            ->catalogSearch('', ['category' => $idCategoryNode]);
+            ->catalogSearch('', ['model' => $productViewTransfer->getAttributes()['model']]);
 
         return [
             'product' => $productViewTransfer,
             'productUrl' => $this->getProductUrl($productViewTransfer),
             'crossSellingProducts' => $crossSellingProducts,
-            'category' => $categoryNode,
         ];
     }
 }
