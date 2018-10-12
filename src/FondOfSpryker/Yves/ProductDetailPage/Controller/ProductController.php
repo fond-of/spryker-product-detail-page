@@ -2,6 +2,7 @@
 
 namespace FondOfSpryker\Yves\ProductDetailPage\Controller;
 
+use Generated\Shared\Transfer\ProductViewTransfer;
 use SprykerShop\Yves\ProductDetailPage\Controller\ProductController as SprykerShopProductController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -11,6 +12,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class ProductController extends SprykerShopProductController
 {
+    const DEFAULT_LOCALE = 'en_US';
+
     /**
      * @param array $productData
      * @param \Symfony\Component\HttpFoundation\Request $request
@@ -33,6 +36,14 @@ class ProductController extends SprykerShopProductController
             ->getProductCategoryStorageClient()
             ->findProductAbstractCategory($productViewTransfer->getIdProductAbstract(), $this->getLocale());
 
+        $nonLocalizedProductViewTransfer = $this->getFactory()
+            ->getProductStorageClient()
+            ->mapProductStorageData($productData, self::DEFAULT_LOCALE, $this->getSelectedAttributes($request));
+
+        $nonLocalizedproductAbstractCategoryStorageTransfer = $this->getFactory()
+            ->getProductCategoryStorageClient()
+            ->findProductAbstractCategory($productViewTransfer->getIdProductAbstract(), self::DEFAULT_LOCALE);
+
         /** @var ProductCategoryStorageTransfer $productCategoryStorageTransfer */
         $productCategoryStorageTransfer = $productAbstractCategoryStorageTransfer->getCategories()[0];
 
@@ -40,11 +51,26 @@ class ProductController extends SprykerShopProductController
             ->getCatalogClient()
             ->catalogSearch('', ['model' => $productViewTransfer->getAttributes()['model']]);
 
+        $modelKey = $this->safeKeyTransformer($nonLocalizedProductViewTransfer->getAttributes()['model']);
+        $styleKey = $this->safeKeyTransformer($nonLocalizedProductViewTransfer->getAttributes()['style']);
+        $categoryKey = $this->safeKeyTransformer(($nonLocalizedproductAbstractCategoryStorageTransfer->getCategories()[0])->getName());
+
         return [
             'product' => $productViewTransfer,
             'productUrl' => $this->getProductUrl($productViewTransfer),
             'crossSellingProducts' => $crossSellingProducts,
-            'categoryNodeId' => $productCategoryStorageTransfer->getCategoryNodeId()
+            'categoryNode' => $productCategoryStorageTransfer,
+            'modelKey' => $modelKey,
+            'styleKey' => $styleKey,
+            'categoryKey' => $categoryKey,
         ];
+    }
+
+    protected function safeKeyTransformer(string $string): string
+    {
+        $search = [" "];
+        $replace = ["-"];
+
+        return str_replace($search, $replace, strtolower($string));
     }
 }
