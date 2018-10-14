@@ -36,41 +36,44 @@ class ProductController extends SprykerShopProductController
             ->getProductCategoryStorageClient()
             ->findProductAbstractCategory($productViewTransfer->getIdProductAbstract(), $this->getLocale());
 
-        $nonLocalizedProductViewTransfer = $this->getFactory()
-            ->getProductStorageClient()
-            ->mapProductStorageData($productData, self::DEFAULT_LOCALE, $this->getSelectedAttributes($request));
-
         $nonLocalizedproductAbstractCategoryStorageTransfer = $this->getFactory()
             ->getProductCategoryStorageClient()
             ->findProductAbstractCategory($productViewTransfer->getIdProductAbstract(), self::DEFAULT_LOCALE);
 
-        /** @var ProductCategoryStorageTransfer $productCategoryStorageTransfer */
-        $productCategoryStorageTransfer = $productAbstractCategoryStorageTransfer->getCategories()[0];
+        /*$foo = $this->getFactory()
+            ->getCategoryStorageClient()
+            ->getCategoryNodeById(3, 'en_US');*/
+
+        $category = false;
+        $productCategoryStorageTransfer = false;
+
+        /** @var \Generated\Shared\Transfer\ProductCategoryStorageTransfer $category */
+        foreach($nonLocalizedproductAbstractCategoryStorageTransfer->getCategories() as $category) {
+            if ($category->getCategoryNodeId() == $productViewTransfer->getCategoryNodeId()) {
+                $category = $category;
+            }
+        }
+
+        /** @var \Generated\Shared\Transfer\ProductCategoryStorageTransfer $category */
+        foreach($productAbstractCategoryStorageTransfer->getCategories() as $category) {
+            if ($category->getCategoryNodeId() == $productViewTransfer->getCategoryNodeId()) {
+                $productCategoryStorageTransfer = $category;
+            }
+        }
+
+        $categoryKey = str_replace([" "], ["_"], strtolower($category->getName()));
+        $productViewTransfer->setCategoryKey($categoryKey);
 
         $crossSellingProducts = $this->getFactory()
             ->getCatalogClient()
             ->catalogSearch('', ['model' => $productViewTransfer->getAttributes()['model']]);
-
-        $modelKey = $this->safeKeyTransformer($nonLocalizedProductViewTransfer->getAttributes()['model']);
-        $styleKey = $this->safeKeyTransformer($nonLocalizedProductViewTransfer->getAttributes()['style']);
-        $categoryKey = $this->safeKeyTransformer(($nonLocalizedproductAbstractCategoryStorageTransfer->getCategories()[0])->getName());
 
         return [
             'product' => $productViewTransfer,
             'productUrl' => $this->getProductUrl($productViewTransfer),
             'crossSellingProducts' => $crossSellingProducts,
             'categoryNode' => $productCategoryStorageTransfer,
-            'modelKey' => $modelKey,
-            'styleKey' => $styleKey,
-            'categoryKey' => $categoryKey,
         ];
     }
 
-    protected function safeKeyTransformer(string $string): string
-    {
-        $search = [" "];
-        $replace = ["-"];
-
-        return str_replace($search, $replace, strtolower($string));
-    }
 }

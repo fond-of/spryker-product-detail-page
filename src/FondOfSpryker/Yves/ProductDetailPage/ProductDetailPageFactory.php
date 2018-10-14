@@ -38,4 +38,5 @@ class ProductDetailPageFactory extends SprykerShopProductDetailPageFactory
     {
         return $this->getProvidedDependency(ProductDetailPageDependencyProvider::CLIENT_CATEGORY_STORAGE);
     }
+
 }
