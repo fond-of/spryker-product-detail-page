@@ -40,24 +40,12 @@ class ProductController extends SprykerShopProductController
             ->getProductCategoryStorageClient()
             ->findProductAbstractCategory($productViewTransfer->getIdProductAbstract(), self::DEFAULT_LOCALE);
 
-        /*$foo = $this->getFactory()
-            ->getCategoryStorageClient()
-            ->getCategoryNodeById(3, 'en_US');*/
-
         $category = false;
-        $productCategoryStorageTransfer = false;
 
         /** @var \Generated\Shared\Transfer\ProductCategoryStorageTransfer $category */
         foreach($nonLocalizedproductAbstractCategoryStorageTransfer->getCategories() as $category) {
             if ($category->getCategoryNodeId() == $productViewTransfer->getCategoryNodeId()) {
                 $category = $category;
-            }
-        }
-
-        /** @var \Generated\Shared\Transfer\ProductCategoryStorageTransfer $category */
-        foreach($productAbstractCategoryStorageTransfer->getCategories() as $category) {
-            if ($category->getCategoryNodeId() == $productViewTransfer->getCategoryNodeId()) {
-                $productCategoryStorageTransfer = $category;
             }
         }
 
@@ -72,7 +60,7 @@ class ProductController extends SprykerShopProductController
             'product' => $productViewTransfer,
             'productUrl' => $this->getProductUrl($productViewTransfer),
             'crossSellingProducts' => $crossSellingProducts,
-            'categoryNode' => $productCategoryStorageTransfer,
+            'categoryNodes' => $productAbstractCategoryStorageTransfer->getCategories(),
         ];
     }
 
