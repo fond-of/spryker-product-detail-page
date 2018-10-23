@@ -5,7 +5,9 @@ namespace FondOfSpryker\Yves\ProductDetailPage;
 use FondOfSpryker\Yves\ProductDetailPage\Dependency\Client\ProductDetailPageProductCategoryStorageClientInterface;
 use FondOfSpryker\Yves\ProductDetailPage\Dependency\Client\ProductDetailPageToCatalogClientInterface;
 use FondOfSpryker\Yves\ProductDetailPage\Dependency\Client\ProductDetailPageToCategoryStorageClientInterface;
+use FondOfSpryker\Yves\ProductDetailPage\Mapper\ProductDetailPageKeyMapper;
 use Spryker\Client\Kernel\AbstractBundleConfig;
+use Spryker\Shared\Kernel\Store;
 use SprykerShop\Yves\ProductDetailPage\ProductDetailPageFactory as SprykerShopProductDetailPageFactory;
 
 class ProductDetailPageFactory extends SprykerShopProductDetailPageFactory
@@ -39,4 +41,21 @@ class ProductDetailPageFactory extends SprykerShopProductDetailPageFactory
         return $this->getProvidedDependency(ProductDetailPageDependencyProvider::CLIENT_CATEGORY_STORAGE);
     }
 
+    /**
+     * @return \Spryker\Shared\Kernel\Store
+     */
+    public function getStore(): Store
+    {
+        return $this->getProvidedDependency(ProductDetailPageDependencyProvider::STORE);
+    }
+
+    /**
+     * @param array $params
+     *
+     * @return \FondOfSpryker\Yves\ProductDetailPage\Mapper\ProductDetailPageKeyMapper
+     */
+    public function createProductDetailPageKeyMapper(array $params = []): ProductDetailPageKeyMapper
+    {
+        return new ProductDetailPageKeyMapper($params);
+    }
 }

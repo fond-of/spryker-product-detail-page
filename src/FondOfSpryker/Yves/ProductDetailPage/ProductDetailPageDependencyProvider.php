@@ -11,6 +11,7 @@ use FondOfSpryker\Yves\ProductDetailPage\Dependency\Client\ProductDetailPageProd
 use FondOfSpryker\Yves\ProductDetailPage\Dependency\Client\ProductDetailPageToCatalogClientBridge;
 use FondOfSpryker\Yves\ProductDetailPage\Dependency\Client\ProductDetailPageToCategoryStorageClientBridge;
 use Pyz\Shared\Category\CategoryConfig;
+use Spryker\Shared\Kernel\Store;
 use Spryker\Yves\Kernel\Container;
 use SprykerShop\Yves\ProductDetailPage\ProductDetailPageDependencyProvider as SprykerShopProductDetailPageDependencyProvider;
 
@@ -20,6 +21,7 @@ class ProductDetailPageDependencyProvider extends SprykerShopProductDetailPageDe
     const CATALOG_CLIENT = 'CATALOG_CLIENT';
     const CATEGORY_CONFIG = 'CATEGORY_CONFIG';
     const CLIENT_CATEGORY_STORAGE = 'CLIENT_CATEGORY_STORAGE';
+    const STORE = 'STORE';
 
     /**
      * @param \Spryker\Yves\Kernel\Container $container
@@ -34,6 +36,7 @@ class ProductDetailPageDependencyProvider extends SprykerShopProductDetailPageDe
         $container = $this->addCatalogClient($container);
         $container = $this->addCategoryConfig($container);
         $container = $this->addCategoryStorageClient($container);
+        $container = $this->addStore($container);
 
         return $container;
     }
@@ -95,6 +98,15 @@ class ProductDetailPageDependencyProvider extends SprykerShopProductDetailPageDe
             return new ProductDetailPageToCategoryStorageClientBridge(
                 $container->getLocator()->categoryStorage()->client()
             );
+        };
+
+        return $container;
+    }
+
+    protected function addStore(Container $container): Container
+    {
+        $container[static::STORE] = function (Container $container) {
+            return Store::getInstance();
         };
 
         return $container;

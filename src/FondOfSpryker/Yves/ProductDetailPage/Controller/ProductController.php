@@ -2,7 +2,8 @@
 
 namespace FondOfSpryker\Yves\ProductDetailPage\Controller;
 
-use Generated\Shared\Transfer\ProductViewTransfer;
+use FondOfSpryker\Yves\ProductDetailPage\Mapper\ProductDetailPageKeyMapper;
+use Generated\Shared\Transfer\ProductCategoryStorageTransfer;
 use SprykerShop\Yves\ProductDetailPage\Controller\ProductController as SprykerShopProductController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -36,32 +37,38 @@ class ProductController extends SprykerShopProductController
             ->getProductCategoryStorageClient()
             ->findProductAbstractCategory($productViewTransfer->getIdProductAbstract(), $this->getLocale());
 
-        $nonLocalizedproductAbstractCategoryStorageTransfer = $this->getFactory()
-            ->getProductCategoryStorageClient()
-            ->findProductAbstractCategory($productViewTransfer->getIdProductAbstract(), self::DEFAULT_LOCALE);
-
-        $category = false;
-
-        /** @var \Generated\Shared\Transfer\ProductCategoryStorageTransfer $category */
-        foreach($nonLocalizedproductAbstractCategoryStorageTransfer->getCategories() as $category) {
-            if ($category->getCategoryNodeId() == $productViewTransfer->getCategoryNodeId()) {
-                $category = $category;
-            }
-        }
-
-        $categoryKey = str_replace([" "], ["_"], strtolower($category->getName()));
-        $productViewTransfer->setCategoryKey($categoryKey);
-
         $crossSellingProducts = $this->getFactory()
             ->getCatalogClient()
             ->catalogSearch('', ['model' => $productViewTransfer->getAttributes()['model']]);
+
+        $productDetailPageKeys = ($this->getFactory()
+            ->createProductDetailPageKeyMapper([
+                ProductDetailPageKeyMapper::STORE => ($this->getFactory()->getStore())->getStoreName(),
+            ]))->build();
 
         return [
             'product' => $productViewTransfer,
             'productUrl' => $this->getProductUrl($productViewTransfer),
             'crossSellingProducts' => $crossSellingProducts,
             'categoryNodes' => $productAbstractCategoryStorageTransfer->getCategories(),
+            ProductDetailPageKeyMapper::STORE => $productDetailPageKeys[ProductDetailPageKeyMapper::STORE],
         ];
     }
 
+    /**
+     * @param array $productCategoryStorageTransfer
+     * @param int $searchNode
+     *
+     * @return \Generated\Shared\Transfer\ProductCategoryStorageTransfer|null
+     */
+    protected function getCategory(array $productCategoryStorageTransfer, int $searchNode): ?ProductCategoryStorageTransfer
+    {
+        foreach ($productCategoryStorageTransfer->getCategories() as $category) {
+            if ($category->getCategoryNodeId() == $searchNode) {
+                return $category;
+            }
+        }
+
+        return null;
+    }
 }
