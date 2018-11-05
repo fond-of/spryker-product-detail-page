@@ -25,13 +25,11 @@ class ProductController extends SprykerShopProductController
      */
     protected function executeDetailAction(array $productData, Request $request): array
     {
-        if (!empty($productData['id_product_abstract']) && $this->isProductAbstractRestricted($productData['id_product_abstract'])) {
-            throw new NotFoundHttpException();
-        }
-
         $productViewTransfer = $this->getFactory()
             ->getProductStorageClient()
             ->mapProductStorageData($productData, $this->getLocale(), $this->getSelectedAttributes($request));
+
+        $this->assertProductRestrictions($productViewTransfer);
 
         $productAbstractCategoryStorageTransfer = $this->getFactory()
             ->getProductCategoryStorageClient()
