@@ -48,14 +48,4 @@ class ProductDetailPageFactory extends SprykerShopProductDetailPageFactory
     {
         return $this->getProvidedDependency(ProductDetailPageDependencyProvider::STORE);
     }
-
-    /**
-     * @param array $params
-     *
-     * @return \FondOfSpryker\Yves\ProductDetailPage\Mapper\ProductDetailPageKeyMapper
-     */
-    public function createProductDetailPageKeyMapper(array $params = []): ProductDetailPageKeyMapper
-    {
-        return new ProductDetailPageKeyMapper($params);
-    }
 }

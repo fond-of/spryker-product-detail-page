@@ -3,6 +3,7 @@
 namespace FondOfSpryker\Yves\ProductDetailPage\Controller;
 
 use FondOfSpryker\Yves\ProductDetailPage\Mapper\ProductDetailPageKeyMapper;
+use Generated\Shared\Transfer\ProductAbstractCategoryStorageTransfer;
 use Generated\Shared\Transfer\ProductCategoryStorageTransfer;
 use SprykerShop\Yves\ProductDetailPage\Controller\ProductController as SprykerShopProductController;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,17 +40,11 @@ class ProductController extends SprykerShopProductController
             ->getCatalogClient()
             ->catalogSearch('', ['model' => $productViewTransfer->getAttributes()['model']]);
 
-        $productDetailPageKeys = ($this->getFactory()
-            ->createProductDetailPageKeyMapper([
-                ProductDetailPageKeyMapper::STORE => ($this->getFactory()->getStore())->getStoreName(),
-            ]))->build();
-
         return [
             'product' => $productViewTransfer,
             'productUrl' => $this->getProductUrl($productViewTransfer),
             'crossSellingProducts' => $crossSellingProducts,
-            'categoryNodes' => $productAbstractCategoryStorageTransfer->getCategories(),
-            ProductDetailPageKeyMapper::STORE => $productDetailPageKeys[ProductDetailPageKeyMapper::STORE],
+            'categoryNodes' => ($productAbstractCategoryStorageTransfer instanceof ProductAbstractCategoryStorageTransfer) ? $productAbstractCategoryStorageTransfer->getCategories() : false,
         ];
     }
 
