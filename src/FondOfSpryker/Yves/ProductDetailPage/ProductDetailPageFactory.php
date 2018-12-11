@@ -5,7 +5,6 @@ namespace FondOfSpryker\Yves\ProductDetailPage;
 use FondOfSpryker\Yves\ProductDetailPage\Dependency\Client\ProductDetailPageProductCategoryStorageClientInterface;
 use FondOfSpryker\Yves\ProductDetailPage\Dependency\Client\ProductDetailPageToCatalogClientInterface;
 use FondOfSpryker\Yves\ProductDetailPage\Dependency\Client\ProductDetailPageToCategoryStorageClientInterface;
-use FondOfSpryker\Yves\ProductDetailPage\Mapper\ProductDetailPageKeyMapper;
 use Spryker\Client\Kernel\AbstractBundleConfig;
 use Spryker\Shared\Kernel\Store;
 use SprykerShop\Yves\ProductDetailPage\ProductDetailPageFactory as SprykerShopProductDetailPageFactory;

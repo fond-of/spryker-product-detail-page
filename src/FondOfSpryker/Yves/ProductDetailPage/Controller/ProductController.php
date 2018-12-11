@@ -2,12 +2,10 @@
 
 namespace FondOfSpryker\Yves\ProductDetailPage\Controller;
 
-use FondOfSpryker\Yves\ProductDetailPage\Mapper\ProductDetailPageKeyMapper;
 use Generated\Shared\Transfer\ProductAbstractCategoryStorageTransfer;
 use Generated\Shared\Transfer\ProductCategoryStorageTransfer;
 use SprykerShop\Yves\ProductDetailPage\Controller\ProductController as SprykerShopProductController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @method \FondOfSpryker\Yves\ProductDetailPage\ProductDetailPageFactory getFactory()
@@ -19,8 +17,6 @@ class ProductController extends SprykerShopProductController
     /**
      * @param array $productData
      * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      *
      * @return array
      */
@@ -36,14 +32,9 @@ class ProductController extends SprykerShopProductController
             ->getProductCategoryStorageClient()
             ->findProductAbstractCategory($productViewTransfer->getIdProductAbstract(), $this->getLocale());
 
-        $crossSellingProducts = $this->getFactory()
-            ->getCatalogClient()
-            ->catalogSearch('', ['model' => $productViewTransfer->getAttributes()['model']]);
-
         return [
             'product' => $productViewTransfer,
             'productUrl' => $this->getProductUrl($productViewTransfer),
-            'crossSellingProducts' => $crossSellingProducts,
             'categoryNodes' => ($productAbstractCategoryStorageTransfer instanceof ProductAbstractCategoryStorageTransfer) ? $productAbstractCategoryStorageTransfer->getCategories() : false,
         ];
     }
