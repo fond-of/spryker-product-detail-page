@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ProductController extends SprykerShopProductController
 {
-    const DEFAULT_LOCALE = 'en_US';
+    public const DEFAULT_LOCALE = 'en_US';
 
     /**
      * @param array $productData

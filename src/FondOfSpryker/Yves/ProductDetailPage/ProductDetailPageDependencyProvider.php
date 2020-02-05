@@ -1,10 +1,5 @@
 <?php
 
-/**
- * This file is part of the Spryker Suite.
- * For full license information, please view the LICENSE file that was distributed with this source code.
- */
-
 namespace FondOfSpryker\Yves\ProductDetailPage;
 
 use FondOfSpryker\Yves\ProductDetailPage\Dependency\Client\ProductDetailPageProductCategoryStorageClientBridge;
@@ -16,11 +11,11 @@ use SprykerShop\Yves\ProductDetailPage\ProductDetailPageDependencyProvider as Sp
 
 class ProductDetailPageDependencyProvider extends SprykerShopProductDetailPageDependencyProvider
 {
-    const PRODUCT_CATEGORY_STORAGE_CLIENT = 'PRODUCT_CATEGORY_STORAGE_CLIENT';
-    const CATALOG_CLIENT = 'CATALOG_CLIENT';
-    const CATEGORY_CONFIG = 'CATEGORY_CONFIG';
-    const CLIENT_CATEGORY_STORAGE = 'CLIENT_CATEGORY_STORAGE';
-    const STORE = 'STORE';
+    public const PRODUCT_CATEGORY_STORAGE_CLIENT = 'PRODUCT_CATEGORY_STORAGE_CLIENT';
+    public const CATALOG_CLIENT = 'CATALOG_CLIENT';
+    public const CATEGORY_CONFIG = 'CATEGORY_CONFIG';
+    public const CLIENT_CATEGORY_STORAGE = 'CLIENT_CATEGORY_STORAGE';
+    public const STORE = 'STORE';
 
     /**
      * @param \Spryker\Yves\Kernel\Container $container

@@ -13,8 +13,6 @@ class ProductDetailPageProductCategoryStorageClientBridge implements ProductDeta
     protected $productCategoryStorageClient;
 
     /**
-     * ProductDetailPageProductCategoryStorageClientBridge constructor.
-     *
      * @param \FondOfSpryker\Yves\ProductDetailPage\Dependency\Client\ProductCategoryStorageClientInterface $productCategoryStorageClient
      */
     public function __construct(ProductCategoryStorageClientInterface $productCategoryStorageClient)
