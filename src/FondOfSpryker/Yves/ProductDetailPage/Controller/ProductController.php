@@ -4,6 +4,7 @@ namespace FondOfSpryker\Yves\ProductDetailPage\Controller;
 
 use Generated\Shared\Transfer\ProductAbstractCategoryStorageTransfer;
 use Generated\Shared\Transfer\ProductCategoryStorageTransfer;
+use Spryker\Shared\Kernel\Store;
 use SprykerShop\Yves\ProductDetailPage\Controller\ProductController as SprykerShopProductController;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -28,9 +29,11 @@ class ProductController extends SprykerShopProductController
 
         $this->assertProductRestrictions($productViewTransfer);
 
+        $store = Store::getInstance()->getStoreName();
+
         $productAbstractCategoryStorageTransfer = $this->getFactory()
             ->getProductCategoryStorageClient()
-            ->findProductAbstractCategory($productViewTransfer->getIdProductAbstract(), $this->getLocale());
+            ->findProductAbstractCategory($productViewTransfer->getIdProductAbstract(), $this->getLocale(), $store);
 
         return [
             'product' => $productViewTransfer,

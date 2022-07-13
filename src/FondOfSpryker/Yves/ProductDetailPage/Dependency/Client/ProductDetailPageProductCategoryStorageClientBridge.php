@@ -13,15 +13,30 @@ class ProductDetailPageProductCategoryStorageClientBridge implements ProductDeta
     protected $productCategoryStorageClient;
 
     /**
-     * @param \FondOfSpryker\Yves\ProductDetailPage\Dependency\Client\ProductCategoryStorageClientInterface $productCategoryStorageClient
+     * @param \Spryker\Client\ProductCategoryStorage\ProductCategoryStorageClientInterface $productCategoryStorageClient
      */
     public function __construct(ProductCategoryStorageClientInterface $productCategoryStorageClient)
     {
         $this->productCategoryStorageClient = $productCategoryStorageClient;
     }
 
-    public function findProductAbstractCategory(int $idProductAbstract, string $locale): ?ProductAbstractCategoryStorageTransfer
-    {
-        return $this->productCategoryStorageClient->findProductAbstractCategory($idProductAbstract, $locale);
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
+     * @param int $idProductAbstract
+     * @param string $localeName
+     * @param string $storeName
+     *
+     * @return \Generated\Shared\Transfer\ProductAbstractCategoryStorageTransfer|null
+     */
+    public function findProductAbstractCategory(
+        int $idProductAbstract,
+        string $localeName,
+        string $storeName
+    ): ?ProductAbstractCategoryStorageTransfer {
+        return $this->productCategoryStorageClient
+            ->findProductAbstractCategory($idProductAbstract, $localeName, $storeName);
     }
 }
